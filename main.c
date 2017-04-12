@@ -54,8 +54,8 @@ int main(void)
 
 void pin_configuration()
 {
-	buzzer_port_init();
-	memory_port_init();
+	buzzer_init();
+	memory_init();
 }
 
 //---------------------------------------------------------------------------------------------	

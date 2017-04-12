@@ -6,10 +6,12 @@
 #include <stdio.h>
 #include "buzzer.h"
 #include "global.h"
+#include <math.h>
 
-/* Initialize pin connect */
-void buzzer_port_init()
+/* Init */
+void buzzer_init()
 {
+	// ===== port init ===== //
   PINSEL_CFG_Type speaker_init_cfg;	
 	speaker_init_cfg.Funcnum = PINSEL_FUNC_0;	//AS GPIO
 	speaker_init_cfg.OpenDrain = PINSEL_PINMODE_NORMAL;
@@ -25,4 +27,16 @@ void buzzer_port_init()
 
   FIO_SetDir(1,(1<<9),1);
   FIO_SetValue(1,(1<<9));// ecrire 1 => P1.9
+	
+	// ===== timer init ===== //
+	T0_Init();
+}
+
+void T0_Init()
+{
+	
+}
+
+int freqNote(int fb,int oc){
+  return fb*pow(2,oc);
 }

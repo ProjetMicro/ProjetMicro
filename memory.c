@@ -7,9 +7,10 @@
 #include "memory.h"
 #include "global.h"
 
-/* Initialize pin connect */
-void memory_port_init()
+/* Init */
+void memory_init()
 {
+	// ===== port init ===== //
 	PINSEL_CFG_Type memory_SDA0_init_cfg;
 	PINSEL_CFG_Type memory_SCL0_init_cfg;
 	
@@ -29,3 +30,4 @@ void memory_port_init()
 	memory_SCL0_init_cfg.Portnum = PINSEL_PORT_0; //P0.28 = memory
   PINSEL_ConfigPin(&memory_SCL0_init_cfg);
 }
+

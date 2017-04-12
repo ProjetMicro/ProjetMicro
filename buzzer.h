@@ -1,4 +1,11 @@
+#ifndef BUZZER_H
+#define BUZZER_H
 
+// ===== Init ===== //
+void buzzer_init();
+void T0_Init();
 
-/* Initialize pin connect */
-void buzzer_port_init();
+/* Fonction de calcul de la fréquence en fonction de l'octave */
+int freqNote(int fb,int oc);
+
+#endif
