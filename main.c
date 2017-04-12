@@ -56,41 +56,6 @@ void pin_configuration()
 {
 	buzzer_port_init();
 	memory_port_init();
-	
-	/*PINSEL_CFG_Type speaker_init_cfg;	
-	PINSEL_CFG_Type memory_SDA0_init_cfg;
-	PINSEL_CFG_Type memory_SCL0_init_cfg;
-	
-	speaker_init_cfg.Funcnum = PINSEL_FUNC_0;	//AS GPIO
-	speaker_init_cfg.OpenDrain = PINSEL_PINMODE_NORMAL;
-	speaker_init_cfg.Pinmode = PINSEL_PINMODE_PULLUP;
-	
-	
-	speaker_init_cfg.Pinnum = PINSEL_PIN_9;          
-	speaker_init_cfg.Portnum = PINSEL_PORT_1; //P1.9 = speaker pin
-  PINSEL_ConfigPin(&speaker_init_cfg);
-
-	
-	GPIO_SetDir (1,(1<<9),1);  // PORT1.9 defined as output   (port, pin, output)
-
-  FIO_SetDir(1,(1<<9),1);
-  FIO_SetValue(1,(1<<9));// ecrire 1 => P1.9
-	
-	memory_SDA0_init_cfg.Funcnum = PINSEL_FUNC_1;	//AS SDA0
-	memory_SDA0_init_cfg.OpenDrain = PINSEL_PINMODE_NORMAL;
-	
-	
-	memory_SDA0_init_cfg.Pinnum = PINSEL_PIN_27;
-	memory_SDA0_init_cfg.Portnum = PINSEL_PORT_0; //P0.27 = memory
-  PINSEL_ConfigPin(&memory_SDA0_init_cfg);
-	
-	
-	memory_SCL0_init_cfg.Funcnum = PINSEL_FUNC_1;	//AS SCL0
-	memory_SCL0_init_cfg.OpenDrain = PINSEL_PINMODE_NORMAL;
-	
-	memory_SCL0_init_cfg.Pinnum = PINSEL_PIN_28;
-	memory_SCL0_init_cfg.Portnum = PINSEL_PORT_0; //P0.28 = memory
-  PINSEL_ConfigPin(&memory_SCL0_init_cfg);*/
 }
 
 //---------------------------------------------------------------------------------------------	
