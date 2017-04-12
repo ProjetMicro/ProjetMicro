@@ -54,8 +54,8 @@ int main(void)
 
 void pin_configuration()
 {
-	void buzzer_port_init();
-	void memory_port_init();
+	buzzer_port_init();
+	memory_port_init();
 	
 	/*PINSEL_CFG_Type speaker_init_cfg;	
 	PINSEL_CFG_Type memory_SDA0_init_cfg;
