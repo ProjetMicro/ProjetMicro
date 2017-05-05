@@ -16,6 +16,8 @@
 #include "memory.h"
 #include "lcd.h"
 #include "globaldec.h" // fichier contenant toutes les déclarations de variables globales
+#include "global.h"
+
 #include <stdio.h>
 
 void pin_configuration();
@@ -24,14 +26,15 @@ void pin_configuration();
 // Function: Main
 //===========================================================//
 int main(void)
-{    
+{
+		flagtacheclavier = 0;
     pin_configuration();
 			
 	
     while(1)
 		{
 			if (flagtacheclavier == 1) {
-				print_coords();
+					print_coords();
 			}
 		}
   // pour l'instant, le main fait juste quelques inits ...
