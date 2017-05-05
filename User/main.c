@@ -27,9 +27,10 @@ void pin_configuration();
 //===========================================================//
 int main(void)
 {
+		uint8_t testEcriture[] = {20,25};
 		flagtacheclavier = 0;
     pin_configuration();
-			
+		i2c_eeprom_write(1, testEcriture, 2);
 	
     while(1)
 		{
@@ -48,6 +49,7 @@ void pin_configuration()
 	touch_init(); // init pinsel tactile et init tactile
 	//Launch timer
 	init_timer1();
+	init_i2c_eeprom();
 }
 
 //---------------------------------------------------------------------------------------------  
