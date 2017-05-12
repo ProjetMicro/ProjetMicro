@@ -28,7 +28,7 @@ void memory_init()
 
 
 void init_i2c_eeprom(){
-	// POWER d�j� actif par d�faut
+	// POWER déjà actif par défaut
 	I2C_Init(LPC_I2C0, 1000000);
 	I2C_Cmd(LPC_I2C0, ENABLE);
 }
@@ -37,29 +37,34 @@ void i2c_eeprom_write(uint16_t addr, void* data, int length){
 	Status res;
 	// mise en place de la structure de configuration de transfert
 	I2C_M_SETUP_Type transfer;
+	// Tdata contient l'adresse du mot où il faut écrire et les mots à écrire
 	uint8_t Tdata[256];
-	length = length + 1;
 	Tdata[0] = (uint8_t) addr;
 	memcpy(&Tdata[1], data, sizeof(data));
-	transfer.sl_addr7bit = 0;
-	transfer.sl_addr7bit |= (1<<6)|(1<<4)|(1<<0);
+	// length + 1 pour la transmission de l'adresse du mot
+	length = length + 1;
+	transfer.sl_addr7bit = 0 | (1<<6)|(1<<4)|(1<<0);
 	transfer.tx_data = Tdata;
 	transfer.tx_length = length;
 	transfer.rx_data = NULL;
 	transfer.rx_length = 0;
 	transfer.retransmissions_max = 1;
-	// appel de la fonction qui permet l'�criture/lecture dans la m�moire
+	// appel de la fonction qui permet l'écriture/lecture dans la mémoire
 	res = I2C_MasterTransferData(LPC_I2C0, &transfer, I2C_TRANSFER_POLLING);
 }
 
 void i2c_eeprom_read(uint16_t addr, void* data, int length){
 	// mise en place de la structure de configuration de transfert
-	I2C_M_SETUP_Type* transfer;
-	transfer->sl_addr7bit=addr;
-	transfer->tx_length = 0;
-	transfer->rx_data = data;
-	transfer->rx_length = length;
-	transfer->retransmissions_max=1;
-	// appel de la fonction qui permet l'�criture/lecture dans la m�moire
-	I2C_MasterTransferData(LPC_I2C0, transfer, I2C_TRANSFER_POLLING);
+	I2C_M_SETUP_Type receive;
+	// Tdata contient l'adresse du mot où il faut lire
+	uint8_t Tdata[] = {(uint8_t) addr};
+	receive.sl_addr7bit = 0 | (1<<6)|(1<<4)|(1<<0);
+	// tx_data et tx_length utilisés pour faire une sélection du mot à lire (écriture vide)
+	receive.tx_data = Tdata;
+	receive.tx_length = 1;
+	receive.rx_data = data;
+	receive.rx_length = length;
+	receive.retransmissions_max = 1;
+	// appel de la fonction qui permet l'écriture/lecture dans la mémoire
+	I2C_MasterTransferData(LPC_I2C0, &receive, I2C_TRANSFER_POLLING);
 }
