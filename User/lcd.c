@@ -1,18 +1,13 @@
-#include "lpc17xx_gpio.h"
-#include "lpc17xx_timer.h"
-#include "touch\ili_lcd_general.h"
-#include "touch\lcd_api.h"
-#include "affichagelcd.h"
-#include "touch\touch_panel.h"
-
 #include <stdio.h>
-#include "lcd.h"
+
 #include "global.h"
+#include "lcd.h"
 
 //LCD Init
-void lcd_init(void) {
-    int n;
-    lcd_Initializtion(); // init pinsel ecran et init LCD
+void lcd_init(void)
+{
+		// init pinsel ecran et init LCD
+    lcd_Initializtion();
     // affichage de l'écran maitre
     n = sprintf(chaine, "Entrez une sequence");
     lcd_clear(White);
@@ -24,7 +19,8 @@ void lcd_init(void) {
 }
 
 //Timer interruption
-void TIMER1_IRQHandler(void) {
+void TIMER1_IRQHandler(void)
+{
     int value = 0;
     uint32_t status = 0;
     if (TIM_GetIntStatus(LPC_TIM1, TIM_MR0_INT))
@@ -34,11 +30,11 @@ void TIMER1_IRQHandler(void) {
         status = GPIO_ReadValue(0);
         value = (status >> 19) & 1;
         flagtacheclavier = !value;
-        //flagtacheclavier = 1;
     }  
 }
 
-void init_timer1(void) {
+void init_timer1(void)
+{
   TIM_TIMERCFG_Type timerConf;
   TIM_MATCHCFG_Type matchConf;
   
@@ -72,27 +68,63 @@ void init_timer1(void) {
     TIM_Cmd(LPC_TIM1, ENABLE);
 }
 
-void print_coords(void) {
-    int n;
+void print_coords(void)
+{
+		Touche t;
     //Read touch coords
     touch_read();
     n = sprintf(chaine, "Touch coords X:%u Y:%u", touch_x, touch_y);
     LCD_write_english_string(10, 290, chaine, Black, White);
     
-    if (touch_x >= 600 && touch_x <= 2000) {
-        if (touch_y >= 2000 && touch_y <= 3000) {
-          n = sprintf(chaine, "Jaune");
-        } else if(touch_y >= 700 && touch_y <= 1800) {
-          n = sprintf(chaine, "Bleu  ");
+    if (touch_x >= 600 && touch_x <= 2000)
+		{
+        if (touch_y >= 2000 && touch_y <= 3000)
+				{
+						n = sprintf(chaine, "Jaune ");
+						t = JAUNE;
         }
-    } else if (touch_x >= 2100 && touch_x <= 3600) {
-      if (touch_y >= 2000 && touch_y <= 3000) {
-        n = sprintf(chaine, "Vert  ");
-        } else if(touch_y >= 700 && touch_y <= 1800) {
-          n = sprintf(chaine, "Rouge");
+				else if(touch_y >= 700 && touch_y <= 1800)
+				{
+						n = sprintf(chaine, "Bleu   ");
+						t = BLEU;
         }
     }
-		LCD_write_english_string(32, 30, chaine, Black, White);
+		else if (touch_x >= 2100 && touch_x <= 3600)
+		{
+				if (touch_y >= 2000 && touch_y <= 3000)
+				{
+						n = sprintf(chaine, "Vert   ");
+						t = VERT;
+				}
+				else if(touch_y >= 700 && touch_y <= 1800)
+				{
+						n = sprintf(chaine, "Rouge ");
+						t = ROUGE;
+				}
+		}
+		
+		switch (t)
+		{
+			case JAUNE:
+				LCD_write_english_string(32, 30, chaine, Black, Yellow);
+				break;
+			
+			case VERT:
+				LCD_write_english_string(32, 30, chaine, Black, Green);
+				break;
+			
+			case ROUGE:
+				LCD_write_english_string(32, 30, chaine, Black, Red);
+				break;
+			
+			case BLEU:
+				LCD_write_english_string(32, 30, chaine, Black, Blue);
+				break;
+			
+			default:
+				break;
+		}
+
     //reset flag
     flagtacheclavier = 0;
 }

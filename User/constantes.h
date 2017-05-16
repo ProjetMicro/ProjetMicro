@@ -1,31 +1,35 @@
-#ifndef CONSTANTES_H
-#define CONSTANTES_H
+#ifndef CONSTANTE_H
+#define CONSTANTE_H
 
-typedef enum {jaune,vert,rouge,bleu} touche ;
+typedef enum {
+		JAUNE,
+		VERT,
+		ROUGE,
+		BLEU
+} Touche;
 
 // mettez dans ce fichier toutes les constantes et définitions 
 // des nouveaux types que vous souhaitez
 
 /* Les constantes des fréquences de base (en Hertz) */
-const char DON = 65; // Do normal
-const char DOD = 69; // Do diese
-const char REN = 74; // Re normal
-const char RED = 78; // Re diese
-const char MIN = 83; // ...
-const char FAN = 87;
-const char FAD = 93;
-const char SON = 98;
-const char SOD = 104;
-const char LAN = 110;
-const char LAD = 117;
-const char SIN = 123;
+#define DO		65 // Do normal
+#define DOD 	69 // Do diese
+#define RE 		74 // Re normal
+#define RED 	78 // Re diese
+#define MI 		83 // ...
+#define FA 		87
+#define FAD 	93
+#define SO 		98
+#define SOD 	104
+#define LA 		110
+#define LAD 	117
+#define SI 		123
 
 /* Frequence de la note associee a un bouton */
-	const char JAUNE_FREQU = DON;
-	const char VERT_FREQU = REN;
-	const char ROUGE_FREQU = MIN;
-	const char BLEU_FREQU = FAN;
+#define JAUNE_FREQU 	DON
+#define VERT_FREQU 		REN
+#define ROUGE_FREQU 	MIN
+#define BLEU_FREQU 		FAN
 	
 /* precision souhaitee sur frequence pour oreil normal */
-
 #endif

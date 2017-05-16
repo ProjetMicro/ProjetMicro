@@ -1,3 +1,10 @@
+#include "lpc17xx_gpio.h"
+#include "lpc17xx_timer.h"
+#include "touch\ili_lcd_general.h"
+#include "touch\lcd_api.h"
+#include "affichagelcd.h"
+#include "touch\touch_panel.h"
+
 #ifndef LCD_H
 #define LCD_H
 
