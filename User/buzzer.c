@@ -26,11 +26,7 @@ void buzzer_init()
   FIO_SetDir(1,(1<<9),1);
   FIO_SetValue(1,(1<<9));// ecrire 1 => P1.9
 
-	//initNotes(); // initialiser notes
 	T0_Init(); // timer init
-	
-	us_periodSound = 1000000 / RE;
-	us_periodSound_step = -1;
 }
 
 void T0_Init()
@@ -40,8 +36,6 @@ void T0_Init()
 
 	timerConf.PrescaleOption = TIM_PRESCALE_USVAL; //prescale en microsecondes
 	timerConf.PrescaleValue = 1; //precision de 1 us.
-	//timerConf.PrescaleOption = TIM_PRESCALE_TICKVAL; //prescale en unitees
-	//timerConf.PrescaleValue = 25; //25 dans PR => precision de 1 us.
 
 	matchConf.ResetOnMatch = ENABLE;
 	matchConf.IntOnMatch = ENABLE;
@@ -58,15 +52,12 @@ void T0_Init()
 
 	// lancer le timer
 	TIM_Cmd(LPC_TIM0, ENABLE);
+	// initialiser une note a DO
+	setMSPeriodeNote(DO);
 }
 
 void initNotes()
 {
-	//us_periodSound = 1000000 / freqNote(74, 1);
-	//us_periodSound = 1000000 / 74;
-
-	//us_periodSound_step = -0.5;
-
 	notes[0] = DO;
 	notes[1] = RE;
 	notes[2] = MI;
@@ -74,9 +65,9 @@ void initNotes()
 	notes[4] = SO;
 	notes[5] = LA;
 	notes[6] = SI;
-	notes[7] = freqNoteOctave(DO, 2);
+	notes[7] = SI;
 
-	//setMSPeriodeNote(notes[1]);
+	setMSPeriodeNote(notes[0]);
 }
 
 void initKey1()
@@ -85,41 +76,36 @@ void initKey1()
 }
 
 ////////// ===== Fonctions d'emmition du son ===== //////////
-int emettreSonTouche(Touche touche)
+void emettreSonTouche(Touche touche)
 {
-	//setMSPeriodeNote();
+	setMSPeriodeNote(frequTouches[touche]);
 }
 
-int demarerSon(int frequence)
+void demarerSon(int frequence)
 {
-	
+	etatSon = 1;
 }
 
-int arreterSon()
+void arreterSon()
 {
-	
+	etatSon = 0;
 }
 
 ////////// ===== Fonctions d'interruption ===== //////////
 void TIMER0_IRQHandler()
 {
-	/*if (us_periodSound < 1000)
-		us_periodSound_step = 0.5;
-	else if (us_periodSound > 1000000 / freqNote(DON, 1))
-		us_periodSound_step = -0.5;
-
-	us_periodSound += us_periodSound_step;*/
 	microSeconds += 50;
-	/*microSeconds2 += 50;
 
-	if (microSeconds2 > 1000 *1000/50) {
+	/*microSeconds2 += 50;
+	if (microSeconds2 > 10000 *1000/50) {
 		microSeconds2 = 0;
 		indiceCurrNote++;
 		if (indiceCurrNote >= NB_NOTES)
 			indiceCurrNote = 0;
+		setMSPeriodeNote(notes[indiceCurrNote]);
 	}*/
-//
-	if (microSeconds > 30*50){//1000000 / 150 / 2) {//us_periodSound / 2) {
+
+	if (etatSon && microSeconds > us_periodSound / 2){
 		microSeconds = 0;
 		etatBuzzer = !etatBuzzer;
 
@@ -141,7 +127,7 @@ void setMSPeriodeNote(int frequ)
 	us_periodSound = 1000000 / frequ;
 }
 
-int freqNoteOctave(int frequ,int octave)
+int noteOctave(int frequ,int octave)
 {
-	setMSPeriodeNote(frequ*pow(2,octave));
+	return 1000000 / frequ;//(frequ * pow(2, octave));
 }

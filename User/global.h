@@ -8,6 +8,7 @@ extern char chaine[30]; // buffer pour l'affichage sur le LCD
 extern uint8_t touch_x, touch_y;
 
 ////////// ===== BUZZER ===== //////////
+extern int etatSon;
 extern int etatBuzzer;
 extern int us_periodSound;
 extern int us_periodSound_step;

@@ -10,12 +10,12 @@ void initNotes();
 void initKey1();
 
 // ===== Fonctions d'emmition du son ===== //
-int emettreSonTouche(Touche touche);
-int demarerSon(int frequence);
-int arreterSon();
+void emettreSonTouche(Touche touche);
+void demarerSon(int frequence);
+void arreterSon();
 
 // ===== Fonctions de calcule ===== //
 void setMSPeriodeNote(int frequ);
-int freqNoteOctave(int frequ,int octave);
+int noteOctave(int frequ,int octave);
 
 #endif
