@@ -1,9 +1,9 @@
 //===========================================================//
 // Projet Micro - INFO1 - ENSSAT - S2 2017               //
 //===========================================================//
-// File                : Programme de départ
+// File                : Programme de dÃ©part
 // Hardware Environment: Open1768  
-// Build Environment   : Keil µVision
+// Build Environment   : Keil ÂµVision
 //===========================================================//
 
 #include "lpc17xx_gpio.h"
@@ -15,7 +15,7 @@
 #include "buzzer.h"
 #include "memory.h"
 #include "lcd.h"
-#include "globaldec.h" // fichier contenant toutes les déclarations de variables globales
+#include "globaldec.h" // fichier contenant toutes les dÃ©clarations de variables globales
 #include "global.h"
 
 #include <stdio.h>
@@ -27,10 +27,15 @@ void pin_configuration();
 //===========================================================//
 int main(void)
 {
-		uint8_t testEcriture[] = {20,25};
-		flagtacheclavier = 0;
+    flagtacheclavier = 0;
     pin_configuration();
-		i2c_eeprom_write(1, testEcriture, 2);
+	
+	uint8_t testEcriture[] = {20,25};
+	uint8_t testLecture[2];
+	// Adresse de : la page | du mot
+	uint16_t addr = 0|(1<<8)|(1<<0);
+	i2c_eeprom_write(addr, testEcriture, 2);
+	i2c_eeprom_read(addr, testLecture, 2);
 	
     while(1)
 		{
