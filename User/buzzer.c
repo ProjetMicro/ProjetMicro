@@ -80,12 +80,13 @@ void initKey1()
 ////////// ===== Fonctions d'emmition du son ===== //////////
 void emettreSonTouche(Touche touche)
 {
-	etatSon = 1;
 	setMSPeriodeNote(frequTouches[touche]);
+	demarerSon();
 }
 
 void demarerSon()
 {
+	microSeconds2 = 0;
 	etatSon = 1;
 }
 
@@ -109,7 +110,7 @@ void TIMER0_IRQHandler()
 	}*/
 	
 	if (microSeconds2 > us_noteDuration) {
-		etatSon = 0;
+		arreterSon();
 	}
 
 	if (etatSon && microSeconds > us_periodSound / 2){
