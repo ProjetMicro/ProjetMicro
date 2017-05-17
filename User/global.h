@@ -1,11 +1,14 @@
 #include <stdint.h>
 #include "constantes.h"
 
-// mettez ici toutes les "extern" correspondant aux déclarations contenues dans globadec.h
+// mettez ici toutes les "extern" correspondant aux dÃ©clarations contenues dans globadec.h
 
 ////////// ===== AFFICHAGE ===== //////////
 extern char chaine[30]; // buffer pour l'affichage sur le LCD
 extern uint8_t touch_x, touch_y;
+
+////////// ===== MEMORY ===== //////////
+extern int complete_M;
 
 ////////// ===== BUZZER ===== //////////
 extern int etatSon;
