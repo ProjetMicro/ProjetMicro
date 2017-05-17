@@ -11,7 +11,7 @@ void initKey1();
 
 // ===== Fonctions d'emmition du son ===== //
 void emettreSonTouche(Touche touche);
-void demarerSon(int frequence);
+void demarerSon();
 void arreterSon();
 
 // ===== Fonctions de calcule ===== //

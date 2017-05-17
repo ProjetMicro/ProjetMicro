@@ -15,16 +15,16 @@ uint16_t touch_x, touch_y ;
 int etatSon = 0;
 int etatBuzzer = 0;
 int us_periodSound = 0;
-int us_periodSound_step = 0;
+int us_noteDuration = 0;
 int microSeconds = 0;
 int microSeconds2 = 0;
 
 /* Frequence de la note associee a un bouton */
 int frequTouches[NB_TOUCHE] = {
 	DO, //Son touche JAUNE
-	RE, //Son touche VERT
-	MI, //Son touche ROUGE
-	FA, //Son touche BLEU
+	MI, //Son touche VERT
+	SO, //Son touche ROUGE
+	SI, //Son touche BLEU
 };
 
 const int NB_NOTES = 8;

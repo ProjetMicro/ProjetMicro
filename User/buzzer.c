@@ -27,6 +27,7 @@ void buzzer_init()
   FIO_SetValue(1,(1<<9));// ecrire 1 => P1.9
 
 	T0_Init(); // timer init
+	initNotes();
 }
 
 void T0_Init()
@@ -52,22 +53,23 @@ void T0_Init()
 
 	// lancer le timer
 	TIM_Cmd(LPC_TIM0, ENABLE);
-	// initialiser une note a DO
-	setMSPeriodeNote(DO);
 }
 
 void initNotes()
 {
-	notes[0] = DO;
+	// initialiser une note a DO
+	setMSPeriodeNote(DO);
+	// initialiser la duree d'une note a 1 sec
+	us_noteDuration = 1000000;
+	
+	/*notes[0] = DO;
 	notes[1] = RE;
 	notes[2] = MI;
 	notes[3] = FA;
 	notes[4] = SO;
 	notes[5] = LA;
 	notes[6] = SI;
-	notes[7] = SI;
-
-	setMSPeriodeNote(notes[0]);
+	notes[7] = SI;*/
 }
 
 void initKey1()
@@ -78,10 +80,11 @@ void initKey1()
 ////////// ===== Fonctions d'emmition du son ===== //////////
 void emettreSonTouche(Touche touche)
 {
+	etatSon = 1;
 	setMSPeriodeNote(frequTouches[touche]);
 }
 
-void demarerSon(int frequence)
+void demarerSon()
 {
 	etatSon = 1;
 }
@@ -95,15 +98,19 @@ void arreterSon()
 void TIMER0_IRQHandler()
 {
 	microSeconds += 50;
+	microSeconds2 += 50;
 
-	/*microSeconds2 += 50;
-	if (microSeconds2 > 10000 *1000/50) {
+	/*if (microSeconds2 > 10000 *1000/50) {
 		microSeconds2 = 0;
 		indiceCurrNote++;
 		if (indiceCurrNote >= NB_NOTES)
 			indiceCurrNote = 0;
 		setMSPeriodeNote(notes[indiceCurrNote]);
 	}*/
+	
+	if (microSeconds2 > us_noteDuration) {
+		etatSon = 0;
+	}
 
 	if (etatSon && microSeconds > us_periodSound / 2){
 		microSeconds = 0;

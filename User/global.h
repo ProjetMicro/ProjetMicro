@@ -11,7 +11,7 @@ extern uint8_t touch_x, touch_y;
 extern int etatSon;
 extern int etatBuzzer;
 extern int us_periodSound;
-extern int us_periodSound_step;
+extern int us_noteDuration;
 extern int microSeconds;
 extern int microSeconds2;
 
