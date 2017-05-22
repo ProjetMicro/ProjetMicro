@@ -1,4 +1,4 @@
-SET PATH=C:\Keil\ARM\ARMCC\bin\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\MiKTeX 2.9\miktex\bin;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\PuTTY;C:\Program Files\MATLAB\R2015b\runtime\win64;C:\Program Files\MATLAB\R2015b\bin;C:\Program Files\TortoiseSVN\bin;C:\MinGW\bin;C:\modeltech64_10.4c\win64;C:\altera\15.0\modelsim_ase\win32aloem
+SET PATH=C:\Keil\ARM\ARMCC\bin\;C:\Program Files\Intel\iCLS Client\;C:\ProgramData\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\MiKTeX 2.9\miktex\bin\;C:\Program Files\TortoiseGit\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files\PuTTY\;C:\Program Files\QuickTime\QTSystem\;C:\Cadence\SPB_16.6\tools\pcb\bin;C:\Cadence\SPB_16.6\tools\bin;C:\Cadence\SPB_16.6\tools\libutil\bin;C:\Cadence\SPB_16.6\tools\fet\bin;C:\Cadence\SPB_16.6\tools\specctra\bin;C:\Cadence\SPB_16.6\tools\pspice;C:\Cadence\SPB_16.6\tools\capture;C:\Cadence\SPB_16.6\openaccess\bin\win32\opt;C:\Program Files\Microsoft Windows Performance Toolkit\;C:\Program Files\Optiwave Software\OptiSystem 6\bin\win32;C:\Program Files\MATLAB\R2012b\bin;C:\Program Files\BaseX\bin;C:\Program Files\IVI Foundation\VISA\WinNT\Bin\;C:\Program Files\IVI Foundation\VISA\WinNT\Bin;C:\Program Files\National Instruments\Motion Assistant\bin\mxwplugins;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT
 SET CPU_TYPE=LPC1768
 SET CPU_VENDOR=NXP (founded by Philips)
 SET UV2_TARGET=Open1786
@@ -20,5 +20,8 @@ SET CPU_CLOCK=0x00B71B00
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\english_16x8.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\affichagelcd.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\touch_panel.__i"
+"C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\buzzer.__i"
+"C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\lcd.__i"
+"C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\memory.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmLink" --Via ".\Output\Project.lnp"
 C:\Keil\ARM\ARMCC\bin\fromelf.exe ".\Output\Project.axf" --i32combined --output ".\Output\Project.hex"
