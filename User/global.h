@@ -1,11 +1,17 @@
+#include "constantes.h" // fichier contenant toutes les constantes du projet
 #include <stdint.h>
-#include "constantes.h"
 
-// mettez ici toutes les "extern" correspondant aux dÃ©clarations contenues dans globadec.h
+#ifndef GLOBAL_H
+#define GLOBAL_H
+
+// mettez ici toutes les "extern" correspondant aux déclarations contenues dans globadec.h
 
 ////////// ===== AFFICHAGE ===== //////////
-extern char chaine[30]; // buffer pour l'affichage sur le LCD
-extern uint8_t touch_x, touch_y;
+// buffer pour l'affichage sur le LCD
+extern char chaine[30];
+extern uint16_t touch_x, touch_y;
+extern int flagtacheclavier;
+extern int n;
 
 ////////// ===== MEMORY ===== //////////
 extern int complete_M;
@@ -24,5 +30,8 @@ extern const int NB_NOTES;
 extern int notes[8];
 extern int indiceCurrNote;
 
-	
-/* precision souhaitee sur frequence pour oreil normal */
+////////// ===== JEU ===== //////////
+extern Touche jeu[10];
+extern int posJeu;
+extern int flag_jeu;
+#endif

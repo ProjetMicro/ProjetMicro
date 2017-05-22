@@ -1,15 +1,10 @@
-#include "lpc17xx_gpio.h"
-#include "lpc17xx_pinsel.h"
-#include "lpc17xx_libcfg_default.h"
-#include "lpc17xx_timer.h"
-
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
+
 #include "buzzer.h"
-#include "global.h"
 
 // ===== Fonctions d'initialisation ===== //
-void buzzer_init()
+void buzzer_init(void)
 {
 	// ===== port init ===== //
   PINSEL_CFG_Type speaker_init_cfg;	
@@ -30,7 +25,7 @@ void buzzer_init()
 	initNotes();
 }
 
-void T0_Init()
+void T0_Init(void)
 {
 	TIM_TIMERCFG_Type timerConf;
 	TIM_MATCHCFG_Type matchConf;
@@ -55,7 +50,7 @@ void T0_Init()
 	TIM_Cmd(LPC_TIM0, ENABLE);
 }
 
-void initNotes()
+void initNotes(void)
 {
 	// initialiser une note a DO
 	setMSPeriodeNote(DO);
@@ -72,7 +67,7 @@ void initNotes()
 	notes[7] = SI;*/
 }
 
-void initKey1()
+void initKey1(void)
 {
 	
 }
@@ -80,17 +75,16 @@ void initKey1()
 ////////// ===== Fonctions d'emmition du son ===== //////////
 void emettreSonTouche(Touche touche)
 {
-	setMSPeriodeNote(frequTouches[touche]);
-	demarerSon();
+	etatSon = 1;
+	if (touche != NOTOUCH) setMSPeriodeNote(frequTouches[touche - 1]);
 }
 
-void demarerSon()
+void demarerSon(void)
 {
-	microSeconds2 = 0;
 	etatSon = 1;
 }
 
-void arreterSon()
+void arreterSon(void)
 {
 	etatSon = 0;
 }
@@ -110,7 +104,8 @@ void TIMER0_IRQHandler()
 	}*/
 	
 	if (microSeconds2 > us_noteDuration) {
-		arreterSon();
+		etatSon = 0;
+		microSeconds2 = 0;
 	}
 
 	if (etatSon && microSeconds > us_periodSound / 2){
@@ -128,7 +123,7 @@ void TIMER0_IRQHandler()
 	TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT);
 }
 
-////////// ===== Fonctions de calcule ===== //////////
+////////// ===== Fonctions de calcul ===== //////////
 
 void setMSPeriodeNote(int frequ)
 {

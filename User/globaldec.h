@@ -1,15 +1,16 @@
-#ifndef GLOBALDEC_H
-#define GLOBALDEC_H
-
 #include "constantes.h" // fichier contenant toutes les constantes du projet
 #include <stdint.h>
-#include "lpc17xx_i2c.h"
+#include "lpc17xx_i2c.h" //Aucunne utilitée pour le moment, laisser au cas où
 
-// mettez ici toutes les dÃ©clarations de variables globales
-
+#ifndef GLOBALDEC_H
+#define GLOBALDEC_H
+// mettez ici toutes les déclarations de variables globales
 ////////// ===== AFFICHAGE ===== //////////
-char chaine[30]; // buffer pour l'affichage sur le LCD
-uint16_t touch_x, touch_y ;
+// buffer pour l'affichage sur le LCD
+char chaine[30];
+uint16_t touch_x, touch_y;
+int flagtacheclavier = 0;
+int n;
 
 ////////// ===== MEMORY ===== //////////
 int complete_M;
@@ -34,4 +35,8 @@ const int NB_NOTES = 8;
 int notes[8];
 int indiceCurrNote = 0;
 
+////////// ===== JEU ===== //////////
+Touche jeu[10];
+int posJeu = 0;
+int flag_jeu = 0;
 #endif

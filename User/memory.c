@@ -1,9 +1,8 @@
 #include "memory.h"
-#include "global.h"
 
 #include <string.h>
 
-void memory_init()
+void memory_init(void)
 {
 	// ===== port init ===== //
 	PINSEL_CFG_Type memory_SDA0_init_cfg;
@@ -27,8 +26,9 @@ void memory_init()
 }
 
 
-void init_i2c_eeprom(){
-	// POWER dÃ©jÃ  actif par dÃ©faut
+void init_i2c_eeprom(void)
+{
+	// POWER déjà actif par défaut
 	I2C_Init(LPC_I2C0, 1000000);
 	// Active l'I2C
 	I2C_Cmd(LPC_I2C0, ENABLE);
@@ -37,7 +37,7 @@ void init_i2c_eeprom(){
 void i2c_eeprom_write(uint16_t addr, void* data, int length){
 	// mise en place de la structure de configuration de transfert
 	I2C_M_SETUP_Type transfer;
-	// Tdata contient l'adresse du mot oÃ¹ il faut Ã©crire et les mots Ã  Ã©crire
+	// Tdata contient l'adresse du mot où il faut écrire et les mots à écrire
 	uint8_t Tdata[256];
 	Tdata[0] = (uint8_t) (addr & 0xFF);
 	memcpy(&Tdata[1], data, sizeof(data));
@@ -50,7 +50,7 @@ void i2c_eeprom_write(uint16_t addr, void* data, int length){
 	transfer.rx_length = 0;
 	transfer.retransmissions_max = 1;
 	transfer.callback = I2C0_IRQHandler;
-	// appel de la fonction qui permet l'Ã©criture/lecture dans la mÃ©moire
+	// appel de la fonction qui permet l'écriture/lecture dans la mémoire
 	complete_M = 0;
 	I2C_MasterTransferData(LPC_I2C0, &transfer, I2C_TRANSFER_INTERRUPT);
 }
@@ -58,18 +58,18 @@ void i2c_eeprom_write(uint16_t addr, void* data, int length){
 void i2c_eeprom_read(uint16_t addr, void* data, int length){
 	// mise en place de la structure de configuration de lecture
 	I2C_M_SETUP_Type receive;
-	// Tdata contient l'adresse du mot oÃ¹ il faut lire
+	// Tdata contient l'adresse du mot où il faut lire
 	uint8_t Tdata[1];
 	Tdata[0] = (uint8_t) (addr & 0xFF);
 	receive.sl_addr7bit = 0|(1<<6)|(1<<4)|(addr>>8);
-	// tx_data et tx_length utilisÃ©s pour faire une sÃ©lection du mot Ã  lire (Ã©criture vide)
+	// tx_data et tx_length utilisés pour faire une sélection du mot à lire (écriture vide)
 	receive.tx_data = Tdata;
 	receive.tx_length = 1;
 	receive.rx_data = data;
 	receive.rx_length = length;
 	receive.retransmissions_max = 1;
 	receive.callback = I2C0_IRQHandler;
-	// appel de la fonction qui permet l'Ã©criture/lecture dans la mÃ©moire
+	// appel de la fonction qui permet l'écriture/lecture dans la mémoire
 	complete_M = 0;
 	I2C_MasterTransferData(LPC_I2C0, &receive, I2C_TRANSFER_INTERRUPT);
 }
