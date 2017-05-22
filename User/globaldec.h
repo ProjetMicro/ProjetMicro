@@ -20,8 +20,8 @@ int etatSon = 0;
 int etatBuzzer = 0;
 int us_periodSound = 0;
 int us_noteDuration = 0;
-int microSeconds = 0;
-int microSeconds2 = 0;
+int microSeconds = 0; // compter pour arriver à us_periodSound
+int microSeconds2 = 0; // compter pour arriver à us_noteDuration
 
 /* Frequence de la note associee a un bouton */
 int frequTouches[NB_TOUCHE] = {
@@ -30,10 +30,6 @@ int frequTouches[NB_TOUCHE] = {
 	SO, //Son touche ROUGE
 	SI, //Son touche BLEU
 };
-
-const int NB_NOTES = 8;
-int notes[8];
-int indiceCurrNote = 0;
 
 ////////// ===== JEU ===== //////////
 Touche jeu[10];

@@ -11,7 +11,6 @@ void buzzer_init(void)
 
 	speaker_init_cfg.Funcnum = PINSEL_FUNC_0;	//AS GPIO
 	speaker_init_cfg.OpenDrain = PINSEL_PINMODE_NORMAL;
-	//speaker_init_cfg.Pinmode = PINSEL_PINMODE_PULLUP;
 	
 	
 	speaker_init_cfg.Pinnum = PINSEL_PIN_9;          
@@ -56,20 +55,6 @@ void initNotes(void)
 	setMSPeriodeNote(DO);
 	// initialiser la duree d'une note a 1 sec
 	us_noteDuration = 1000000;
-	
-	/*notes[0] = DO;
-	notes[1] = RE;
-	notes[2] = MI;
-	notes[3] = FA;
-	notes[4] = SO;
-	notes[5] = LA;
-	notes[6] = SI;
-	notes[7] = SI;*/
-}
-
-void initKey1(void)
-{
-	
 }
 
 ////////// ===== Fonctions d'emmition du son ===== //////////
@@ -94,21 +79,14 @@ void TIMER0_IRQHandler()
 {
 	microSeconds += 50;
 	microSeconds2 += 50;
-
-	/*if (microSeconds2 > 10000 *1000/50) {
-		microSeconds2 = 0;
-		indiceCurrNote++;
-		if (indiceCurrNote >= NB_NOTES)
-			indiceCurrNote = 0;
-		setMSPeriodeNote(notes[indiceCurrNote]);
-	}*/
 	
-	if (microSeconds2 > us_noteDuration) {
+
+	if (microSeconds2 > us_noteDuration) { // fin de la note
 		etatSon = 0;
 		microSeconds2 = 0;
 	}
 
-	if (etatSon && microSeconds > us_periodSound / 2){
+	if (etatSon && microSeconds > us_periodSound / 2) { //inversion de l'état du haut parleur à chaque demi périodes
 		microSeconds = 0;
 		etatBuzzer = !etatBuzzer;
 
@@ -130,7 +108,3 @@ void setMSPeriodeNote(int frequ)
 	us_periodSound = 1000000 / frequ;
 }
 
-int noteOctave(int frequ,int octave)
-{
-	return 1000000 / frequ;//(frequ * pow(2, octave));
-}

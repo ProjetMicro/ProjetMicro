@@ -26,10 +26,6 @@ extern int microSeconds2;
 
 extern int frequTouches[NB_TOUCHE];
 
-extern const int NB_NOTES;
-extern int notes[8];
-extern int indiceCurrNote;
-
 ////////// ===== JEU ===== //////////
 extern Touche jeu[10];
 extern int posJeu;

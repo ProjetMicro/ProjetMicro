@@ -11,7 +11,6 @@
 void buzzer_init(void);
 void T0_Init(void);
 void initNotes(void);
-void initKey1(void);
 
 // ===== Fonctions d'emmition du son ===== //
 void emettreSonTouche(Touche touche);
@@ -20,6 +19,5 @@ void arreterSon(void);
 
 // ===== Fonctions de calcul ===== //
 void setMSPeriodeNote(int frequ);
-int noteOctave(int frequ,int octave);
 
 #endif
