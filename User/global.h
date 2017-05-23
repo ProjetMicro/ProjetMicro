@@ -18,12 +18,15 @@ extern int n;
 extern int complete_M;
 
 ////////// ===== BUZZER ===== //////////
+extern int doubleNoteOn;
 extern int etatSon;
 extern int etatBuzzer;
 extern int us_periodSound;
+extern int us_periodDoubleNote;
 extern int us_noteDuration;
 extern int microSeconds;
 extern int microSeconds2;
+extern int microSeconds3;
 
 extern int frequTouches[NB_TOUCHE];
 
@@ -39,4 +42,5 @@ extern int menu;
 extern int unJoueur;
 extern int deuxJoueurs;
 extern int flag_jeu;
+extern int no_touch;
 #endif

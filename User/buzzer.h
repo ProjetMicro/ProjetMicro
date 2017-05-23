@@ -13,6 +13,7 @@ void T0_Init(void);
 void initNotes(void);
 
 // ===== Fonctions d'emmition du son ===== //
+void emettreREetFAD();
 void emettreSonTouche(Touche touche);
 void demarerSon(void);
 void arreterSon(void);

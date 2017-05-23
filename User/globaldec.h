@@ -17,12 +17,15 @@ int n;
 int complete_M;
 
 ////////// ===== BUZZER ===== //////////
+int doubleNoteOn = 0;
 int etatSon = 0;
 int etatBuzzer = 0;
 int us_periodSound = 0;
+int us_periodDoubleNote = 0;
 int us_noteDuration = 0;
 int microSeconds = 0;
 int microSeconds2 = 0;
+int microSeconds3 = 0;
 
 /* Frequence de la note associee a un bouton */
 int frequTouches[NB_TOUCHE] = {

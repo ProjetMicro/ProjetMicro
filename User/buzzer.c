@@ -55,9 +55,16 @@ void initNotes(void)
 	setMSPeriodeNote(DO);
 	// initialiser la duree d'une note a 1 sec
 	us_noteDuration = 1000000;
+	// initialiser la periode d'une double note a 50 ms
+	us_periodDoubleNote = 50000;
 }
 
 ////////// ===== Fonctions d'emmition du son ===== //////////
+void emettreREetFAD()
+{
+	doubleNoteOn = 1;
+}
+
 void emettreSonTouche(Touche touche)
 {
 	etatSon = 1;
@@ -79,14 +86,23 @@ void TIMER0_IRQHandler()
 {
 	microSeconds += 50;
 	microSeconds2 += 50;
-	
+	microSeconds3 += 50;
 
+	if (doubleNoteOn && microSeconds3 > us_periodDoubleNote / 2) { //alternation des 2 notes (mode doubleNote)
+		microSeconds3 = 0;
+		if (us_periodSound == 1000000 / RE) { // note RE
+			setMSPeriodeNote(FAD);
+		} else {
+			setMSPeriodeNote(RE);
+		}
+	}
+	
 	if (microSeconds2 > us_noteDuration) { // fin de la note
 		etatSon = 0;
 		microSeconds2 = 0;
 	}
 
-	if (etatSon && microSeconds > us_periodSound / 2) { //inversion de l'état du haut parleur à chaque demi périodes
+	if (etatSon && microSeconds > us_periodSound / 2) { //inversion de l'état du haut-parleur à chaque demi périodes
 		microSeconds = 0;
 		etatBuzzer = !etatBuzzer;
 
