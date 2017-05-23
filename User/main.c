@@ -11,6 +11,7 @@
 #include "buzzer.h"
 #include "memory.h"
 #include "lcd.h"
+#include "jeu.h"
 #include "globaldec.h" // fichier contenant toutes les déclarations de variables globales
 
 #include <stdio.h>
@@ -28,6 +29,7 @@ int main(void)
 //	uint16_t addr = 0|(1<<8)|(1<<0);
 
 	pin_configuration();
+	lcd_init(); //TODO Change
 //	i2c_eeprom_write(addr, testEcriture, 2);
 //	i2c_eeprom_read(addr, testLecture, 2);
 	
@@ -35,16 +37,26 @@ int main(void)
 	{
 		if (flagtacheclavier == 1) {
 			tache_clavier();
+			if (!flagchange) {
+				modifier_ecran(jeu[posJeu - 1]);
+				flagchange = 1;
+			}
 		}
-		if (flag_jeu == 1) {
+		if (flagappuitactile) {
 			emettreSonTouche(jeu[posJeu - 1]);
+		} else {
+			if (flagchange) {
+				modifier_ecran(NOTOUCH);
+				arreterSon();
+				flagchange = 0;
+			}
 		}
 	}
 }
 
 void pin_configuration()
 {
-	lcd_init(); //Là ça marche plus
+	lcd_Initializtion();
 	touch_init(); // init pinsel tactile et init tactile
 	memory_init();
 	buzzer_init();

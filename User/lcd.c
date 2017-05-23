@@ -2,20 +2,67 @@
 
 #include "lcd.h"
 
-
 //LCD Init
 void lcd_init(void)
 {
 		// init pinsel ecran et init LCD
-		lcd_Initializtion();
 		// affichage de l'écran maitre
 		n = sprintf(chaine, "Entrez une sequence");
 		lcd_clear(White);
 		LCD_write_english_string(32, 15, chaine, Black, White);
-		dessiner_rect(10, 60, 110, 110, 2, 1, Black, Yellow);
-		dessiner_rect(120, 60, 110, 110, 2, 1, Black, Green);
-		dessiner_rect(10, 170, 110, 110, 2, 1, Black, Blue);
-		dessiner_rect(120, 170, 110, 110, 2, 1, Black, Red);
+		dessiner_rect_yellow(1);
+		dessiner_rect_green(1);
+		dessiner_rect_blue(1);
+		dessiner_rect_red(1);
+}
+
+void modifier_ecran(Touche t) {
+	switch (t) {
+			case JAUNE:
+				dessiner_rect_yellow(0);
+				break;
+			
+			case VERT:
+				dessiner_rect_green(0);
+				break;
+			
+			case ROUGE:
+				dessiner_rect_red(0);
+				break;
+			
+			case BLEU:
+				dessiner_rect_blue(0);
+				break;
+			
+			default:
+				dessiner_rect_yellow(1);
+				dessiner_rect_green(1);
+				dessiner_rect_red(1);
+				dessiner_rect_blue(1);
+				break;
+	}
+	
+	
+}
+
+void dessiner_rect_yellow(char sombre) {
+	if (sombre)	dessiner_rect(10, 60, 110, 110, 2, 1, Black, Yellow);
+	else dessiner_rect(10, 60, 110, 110, 2, 1, Black, Black);
+}
+
+void dessiner_rect_green(char sombre) {
+	if (sombre) dessiner_rect(120, 60, 110, 110, 2, 1, Black, Green);
+	else dessiner_rect(120, 60, 110, 110, 2, 1, Black, Black);
+}
+
+void dessiner_rect_blue(char sombre) {
+	if (sombre) dessiner_rect(10, 170, 110, 110, 2, 1, Black, Blue);
+	else dessiner_rect(10, 170, 110, 110, 2, 1, Black, Black);
+}
+
+void dessiner_rect_red(char sombre) {
+	if (sombre) dessiner_rect(120, 170, 110, 110, 2, 1, Black, Red);
+	else dessiner_rect(120, 170, 110, 110, 2, 1, Black, Black);
 }
 
 //Timer interruption
@@ -30,6 +77,7 @@ void TIMER1_IRQHandler(void)
 				status = GPIO_ReadValue(0);
 				value = (status >> 19) & 1;
 				flagtacheclavier = !value;
+				flagappuitactile = flagtacheclavier;
 		}	
 }
 
@@ -66,96 +114,4 @@ void init_timer1(void)
 		
 		//Start timer
 		TIM_Cmd(LPC_TIM1, ENABLE);
-}
-
-void tache_clavier(void) {
-		//On déclare une Touche t pour stocker l'appui
-		Touche t;
-	
-		//Le flag appui clavier est à 1
-		//On le reset
-		flagtacheclavier = 0;
-		
-		//On met à jour les coordonnées
-		touch_read();
-		
-		//On écrit les coords à l'écran (temp)
-		n = sprintf(chaine, "Touch coords X:%u  Y:%u  ", touch_x, touch_y);
-		LCD_write_english_string(10, 290, chaine, Black, White);
-	
-		t = get_touche();
-		
-		//Switch pour afficher (temp)
-		switch (t)
-		{
-			case NOTOUCH:
-				n = sprintf(chaine, "Rien   ");
-				LCD_write_english_string(32, 30, chaine, Black, White);
-				break;
-			
-			case JAUNE:
-				n = sprintf(chaine, "Jaune  ");
-				LCD_write_english_string(32, 30, chaine, Black, Yellow);
-				break;
-			
-			case VERT:
-				n = sprintf(chaine, "Vert   ");
-				LCD_write_english_string(32, 30, chaine, Black, Green);
-				break;
-			
-			case ROUGE:
-				n = sprintf(chaine, "Rouge  ");
-				LCD_write_english_string(32, 30, chaine, Black, Red);
-				break;
-			
-			case BLEU:
-				n = sprintf(chaine, "Bleu   ");
-				LCD_write_english_string(32, 30, chaine, Black, Blue);
-				break;
-			
-			default:
-				break;
-		}
-	
-		//Mise à jour du tableau de jeu
-		if (flag_jeu == 0)
-		{
-				flag_jeu = 1;
-				//Set pos of tab to 0
-				posJeu = 0;
-		}
-		
-		if (t != jeu[posJeu - 1] && t != NOTOUCH) {
-				jeu[posJeu] = t;
-				posJeu++;
-		}
-}
-
-Touche get_touche(void)
-{
-		Touche t;
-		
-		if (touch_x >= 600 && touch_x <= 2000)
-		{
-				if (touch_y >= 2000 && touch_y <= 3200)
-				{
-						t = JAUNE;
-				}
-				else if(touch_y >= 800 && touch_y <= 2000)
-				{
-						t = BLEU;
-				}
-		}
-		else if (touch_x >= 2100 && touch_x <= 3600)
-		{
-				if (touch_y >= 2000 && touch_y <= 3200)
-				{
-						t = VERT;
-				}
-				else if(touch_y >= 800 && touch_y <= 2000)
-				{
-						t = ROUGE;
-				}
-		}
-		return t;
 }
