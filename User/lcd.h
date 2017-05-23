@@ -10,9 +10,10 @@
 #ifndef LCD_H
 #define LCD_H
 
-void lcd_init(void);
+void lcd_init_menu(void);
 void lcd_init_deuxJoueurs(void);
-void modifier_ecran(Touche);
+void lcd_init_fin(char);
+void modifier_ecran(Touche, char);
 void dessiner_rect_yellow(char);
 void dessiner_rect_green(char);
 void dessiner_rect_blue(char);

@@ -15,6 +15,7 @@
 #include "globaldec.h" // fichier contenant toutes les déclarations de variables globales
 
 #include <stdio.h>
+#include <string.h>
 
 void pin_configuration(void);
 
@@ -23,51 +24,82 @@ void pin_configuration(void);
 //===========================================================//
 int main(void)
 {
-//	uint8_t testEcriture[] = {20,25};
-//	uint8_t testLecture[2];
-//	// Adresse de : la page | du mot
-//	uint16_t addr = 0|(1<<8)|(1<<0);
+	// Adresse de : la page | du mot
+	uint16_t addr = 0|(1<<8)|(1<<0);
 	pin_configuration();
 	
 	
 	while(1)
 	{
-		if(flagtacheclavier == 1)
+		if(menu == 1)
 		{
-			if(menu == 1)
+			if(flagtacheclavier == 1)
 			{
 				tache_clavier_menu();
 			}
-			else if(unJoueur == 1)
+		}
+		else if(unJoueur == 1)
+		{
+			if(flagtacheclavier == 1)
 			{
-				// tache_clavier_unJoueur(); A DEFINIR
 				tache_clavier();
-				if (!flagchange) {
-					modifier_ecran(jeu[posJeu - 1]);
-					flagchange = 1;
+				if(flagappuitactile && !flagchangecouleur)
+				{
+					modifier_ecran(courant, 0);
+					flagchangecouleur = 1;
 				}
 			}
-			else if(deuxJoueurs == 1)
+			else if(no_touch)
 			{
-				// tache_clavier_deuxJoueurs(); A DEFINIR
-				tache_clavier();
-				if (!flagchange) {
-					modifier_ecran(jeu[posJeu - 1]);
-					flagchange = 1;
-				}
+				no_touch = 0;
+				LCD_write_english_string(30, 110, "FIN", Black, White);
 			}
 		}
-		if(flagappuitactile)
+		else if(deuxJoueurs == 1)
 		{
-			emettreSonTouche(jeu[posJeu - 1]);
-		}
-		else
-		{
-			if(flagchange)
+			if(flagtacheclavier == 1)
 			{
-				modifier_ecran(NOTOUCH);
-				arreterSon();
-				flagchange = 0;
+				tache_clavier();
+				if(flagappuitactile && !flagchangecouleur)
+				{
+					modifier_ecran(courant, 0);
+					flagchangecouleur = 1;
+				}
+			}
+			else if(gagne)
+			{
+				lcd_init_fin(1);
+			}
+			else if(perdu)
+			{
+				lcd_init_fin(0);
+			}
+			else if(no_touch)
+			{
+				no_touch = 0;
+				i2c_eeprom_write(addr, jeu, posJeu);
+				LCD_write_english_string(32, 15, "J2 : Repetez la sequence", Black, White);
+				joueur1 = 0;
+				joueur2 = 1;
+				//memset(jeu, 0, posJeu);
+				seqLength = posJeu;
+				posJeu = 0;
+			}
+		}
+		if(unJoueur || deuxJoueurs)
+		{
+			if(flagappuitactile)
+			{
+				emettreSonTouche(courant);
+			}
+			else
+			{
+				if(flagchangecouleur)
+				{
+					modifier_ecran(courant, 1);
+					arreterSon();
+					flagchangecouleur = 0;
+				}
 			}
 		}
 	}
@@ -75,7 +107,8 @@ int main(void)
 
 void pin_configuration()
 {
-	lcd_init();
+	lcd_Initializtion();
+	lcd_init_menu();
 	touch_init(); // init pinsel tactile et init tactile
 	memory_init();
 	buzzer_init();

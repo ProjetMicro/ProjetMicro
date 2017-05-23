@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "jeu.h"
-
+#include "memory.h"
 
 //Timer interruption
 void TIMER2_IRQHandler(void)
@@ -9,7 +9,7 @@ void TIMER2_IRQHandler(void)
 		{
 				TIM_ClearIntPending(LPC_TIM2, TIM_MR0_INT);
 				no_touch = 1;
-		}	
+		}
 }
 
 void init_timer_jeu(void)
@@ -47,41 +47,76 @@ void init_timer_jeu(void)
 		TIM_Cmd(LPC_TIM2, ENABLE);
 }
 
-void tache_clavier(void) {
-		//On dÃ©clare une Touche t pour stocker l'appui
-		Touche t;
+void joueurUn()
+{
+	if(flag_jeu == 0)
+	{
+		flag_jeu = 1;
+		//Set pos of tab to 0
+		posJeu = 0;
+	}
 	
-		//Le flag appui clavier est Ã  1
+	if(!flagrepetitiontouche)
+	{
+		jeu[posJeu] = courant;
+		posJeu++;
+		flagrepetitiontouche = 1;
+	}
+}
+
+void joueurDeux()
+{
+	if(!flagrepetitiontouche)
+	{
+		posJeu++;
+		flagrepetitiontouche = 1;
+		if(courant != jeu[posJeu-1])
+		{
+			perdu = 1;
+		}
+		else if(posJeu == seqLength)
+		{
+			gagne = 1;
+		}
+	}
+}
+
+void tache_clavier(void)
+{
+		//Le flag appui clavier est à 1
 		//On le reset
 		flagtacheclavier = 0;
 		
-		//On met Ã  jour les coordonnÃ©es
+		//On met à jour les coordonnées
 		touch_read();
 	
-		t = get_touche();
+		if (!flagrepetitiontouche) courant = get_touche();
 	
-		if(t == NOTOUCH)
+		if(courant != NOTOUCH)
 		{
+			flagappuitactile = 1;
+		}else{
 			flagappuitactile = 0;
 		}
 	
-		//Mise Ã  jour du tableau de jeu
-		if (flag_jeu == 0)
+		// test taille séquence + joueur qui joue => pour le reset du timer
+		if(posJeu < 255 && courant != NOTOUCH)
 		{
-				flag_jeu = 1;
-				//Set pos of tab to 0
-				posJeu = 0;
-		}
-		
-		if (t != jeu[posJeu - 1] && t != NOTOUCH) {
-				jeu[posJeu] = t;
-				posJeu++;
+				if(joueur1)
+				{
+					joueurUn();
+					TIM_ResetCounter(LPC_TIM2);
+				}
+				else if(joueur2)
+				{
+					joueurDeux();
+				}
 		}
 }
 
 Touche get_touche(void)
 {
-		Touche t;
+		Touche t = NOTOUCH;
 		
 		if (touch_x >= 600 && touch_x <= 2000)
 		{
@@ -104,23 +139,26 @@ Touche get_touche(void)
 				{
 						t = ROUGE;
 				}
+		}else{
+			t = NOTOUCH;
 		}
+		
 		return t;
 }
 
 void tache_clavier_menu(void)
 {
-		//On dÃ©clare une Touche t pour stocker l'appui
+		//On déclare une Touche t pour stocker l'appui
 		int t;
 	
-		//Le flag appui clavier est Ã  1
+		//Le flag appui clavier est à 1
 		//On le reset
 		flagtacheclavier = 0;
 		
-		//On met Ã  jour les coordonnÃ©es
+		//On met à jour les coordonnées
 		touch_read();
 	
-		t = get_touche();
+		t = get_touche_menu();
 	
 		flagappuitactile = 0;
 		
@@ -135,7 +173,9 @@ void tache_clavier_menu(void)
 			
 			case 2:
 				menu = 0;
+				joueur1 = 1;
 				lcd_init_deuxJoueurs();
+				init_timer_jeu();
 				break;
 			
 			default:
