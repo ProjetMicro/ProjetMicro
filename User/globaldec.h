@@ -1,10 +1,10 @@
 #include "constantes.h" // fichier contenant toutes les constantes du projet
 #include <stdint.h>
-#include "lpc17xx_i2c.h" //Aucunne utilitée pour le moment, laisser au cas où
+#include "lpc17xx_i2c.h" //Aucunne utilitÃ©e pour le moment, laisser au cas oÃ¹
 
 #ifndef GLOBALDEC_H
 #define GLOBALDEC_H
-// mettez ici toutes les déclarations de variables globales
+// mettez ici toutes les dÃ©clarations de variables globales
 ////////// ===== AFFICHAGE ===== //////////
 // buffer pour l'affichage sur le LCD
 char chaine[30];
@@ -44,4 +44,5 @@ int menu = 1;
 int unJoueur = 0;
 int deuxJoueurs = 0;
 int flag_jeu = 0;
+int no_touch = 0;
 #endif
