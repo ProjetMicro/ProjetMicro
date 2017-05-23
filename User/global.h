@@ -11,6 +11,7 @@
 extern char chaine[30];
 extern uint16_t touch_x, touch_y;
 extern int flagtacheclavier;
+extern int flagappuitactile;
 extern int n;
 
 ////////// ===== MEMORY ===== //////////
@@ -26,8 +27,16 @@ extern int microSeconds2;
 
 extern int frequTouches[NB_TOUCHE];
 
+extern const int NB_NOTES;
+extern int notes[8];
+extern int indiceCurrNote;
+
 ////////// ===== JEU ===== //////////
 extern Touche jeu[10];
 extern int posJeu;
+extern int flagchange;
+extern int menu;
+extern int unJoueur;
+extern int deuxJoueurs;
 extern int flag_jeu;
 #endif

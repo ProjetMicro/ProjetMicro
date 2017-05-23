@@ -3,9 +3,12 @@
 #include "touch\touch_panel.h"
 
 #include "global.h"
+#include "lcd.h"
 
 #ifndef JEU_H
 #define JEU_H
 void tache_clavier(void);
 Touche get_touche(void);
+void tache_clavier_menu(void);
+int get_touche_menu(void);
 #endif

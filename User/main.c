@@ -27,25 +27,44 @@ int main(void)
 //	uint8_t testLecture[2];
 //	// Adresse de : la page | du mot
 //	uint16_t addr = 0|(1<<8)|(1<<0);
-
 	pin_configuration();
-	lcd_init(); //TODO Change
-//	i2c_eeprom_write(addr, testEcriture, 2);
-//	i2c_eeprom_read(addr, testLecture, 2);
+	
 	
 	while(1)
 	{
-		if (flagtacheclavier == 1) {
-			tache_clavier();
-			if (!flagchange) {
-				modifier_ecran(jeu[posJeu - 1]);
-				flagchange = 1;
+		if(flagtacheclavier == 1)
+		{
+			if(menu == 1)
+			{
+				tache_clavier_menu();
+			}
+			else if(unJoueur == 1)
+			{
+				// tache_clavier_unJoueur(); A DEFINIR
+				tache_clavier();
+				if (!flagchange) {
+					modifier_ecran(jeu[posJeu - 1]);
+					flagchange = 1;
+				}
+			}
+			else if(deuxJoueurs == 1)
+			{
+				// tache_clavier_deuxJoueurs(); A DEFINIR
+				tache_clavier();
+				if (!flagchange) {
+					modifier_ecran(jeu[posJeu - 1]);
+					flagchange = 1;
+				}
 			}
 		}
-		if (flagappuitactile) {
+		if(flagappuitactile)
+		{
 			emettreSonTouche(jeu[posJeu - 1]);
-		} else {
-			if (flagchange) {
+		}
+		else
+		{
+			if(flagchange)
+			{
 				modifier_ecran(NOTOUCH);
 				arreterSon();
 				flagchange = 0;
@@ -56,7 +75,7 @@ int main(void)
 
 void pin_configuration()
 {
-	lcd_Initializtion();
+	lcd_init();
 	touch_init(); // init pinsel tactile et init tactile
 	memory_init();
 	buzzer_init();

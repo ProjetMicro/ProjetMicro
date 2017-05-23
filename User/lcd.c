@@ -2,18 +2,31 @@
 
 #include "lcd.h"
 
+
 //LCD Init
 void lcd_init(void)
 {
-		// init pinsel ecran et init LCD
-		// affichage de l'écran maitre
+		lcd_Initializtion();
+		// affichage de l'écran menu
+		lcd_clear(White);
+		dessiner_rect(10, 60, 110, 110, 2, 0, Black, NULL);
+		LCD_write_english_string(30, 110, "1 joueur", Black, White);
+		dessiner_rect(120, 60, 110, 110, 2, 0, Black, NULL);
+		LCD_write_english_string(140, 110, "2 joueurs", Black, White);
+}
+
+//LCD Init
+void lcd_init_deuxJoueurs(void)
+{
+		// affichage de l'écran de jeu
 		n = sprintf(chaine, "Entrez une sequence");
 		lcd_clear(White);
 		LCD_write_english_string(32, 15, chaine, Black, White);
-		dessiner_rect_yellow(1);
-		dessiner_rect_green(1);
-		dessiner_rect_blue(1);
-		dessiner_rect_red(1);
+		dessiner_rect(10, 60, 110, 110, 2, 1, Black, Yellow);
+		dessiner_rect(120, 60, 110, 110, 2, 1, Black, Green);
+		dessiner_rect(10, 170, 110, 110, 2, 1, Black, Blue);
+		dessiner_rect(120, 170, 110, 110, 2, 1, Black, Red);
+		deuxJoueurs = 1;
 }
 
 void modifier_ecran(Touche t) {
@@ -41,8 +54,6 @@ void modifier_ecran(Touche t) {
 				dessiner_rect_blue(1);
 				break;
 	}
-	
-	
 }
 
 void dessiner_rect_yellow(char sombre) {

@@ -10,6 +10,7 @@
 char chaine[30];
 uint16_t touch_x, touch_y;
 int flagtacheclavier = 0;
+int flagappuitactile = 0;
 int n;
 
 ////////// ===== MEMORY ===== //////////
@@ -20,8 +21,8 @@ int etatSon = 0;
 int etatBuzzer = 0;
 int us_periodSound = 0;
 int us_noteDuration = 0;
-int microSeconds = 0; // compter pour arriver à us_periodSound
-int microSeconds2 = 0; // compter pour arriver à us_noteDuration
+int microSeconds = 0;
+int microSeconds2 = 0;
 
 /* Frequence de la note associee a un bouton */
 int frequTouches[NB_TOUCHE] = {
@@ -31,8 +32,16 @@ int frequTouches[NB_TOUCHE] = {
 	SI, //Son touche BLEU
 };
 
+const int NB_NOTES = 8;
+int notes[8];
+int indiceCurrNote = 0;
+
 ////////// ===== JEU ===== //////////
 Touche jeu[10];
 int posJeu = 0;
+int flagchange = 0;
+int menu = 1;
+int unJoueur = 0;
+int deuxJoueurs = 0;
 int flag_jeu = 0;
 #endif
