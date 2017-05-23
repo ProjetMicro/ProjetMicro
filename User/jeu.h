@@ -7,6 +7,8 @@
 
 #ifndef JEU_H
 #define JEU_H
+void TIMER2_IRQHandler(void);
+void init_timer_jeu(void);
 void tache_clavier(void);
 Touche get_touche(void);
 void tache_clavier_menu(void);
