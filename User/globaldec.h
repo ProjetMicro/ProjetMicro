@@ -1,29 +1,38 @@
 #include "constantes.h" // fichier contenant toutes les constantes du projet
 #include <stdint.h>
-#include "lpc17xx_i2c.h" //Aucunne utilitée pour le moment, laisser au cas où
+#include "lpc17xx_i2c.h" //Aucunne utilitÃ©e pour le moment, laisser au cas oÃ¹
 
 #ifndef GLOBALDEC_H
 #define GLOBALDEC_H
-// mettez ici toutes les déclarations de variables globales
+// mettez ici toutes les dÃ©clarations de variables globales
 ////////// ===== AFFICHAGE ===== //////////
 // buffer pour l'affichage sur le LCD
 char chaine[30];
 uint16_t touch_x, touch_y;
 int flagtacheclavier = 0;
 int flagappuitactile = 0;
-int flagchangecouleur = 0;
 int n;
 
 ////////// ===== MEMORY ===== //////////
 int complete_M;
 
 ////////// ===== BUZZER ===== //////////
+int modeMusique = 0;
+int doubleNoteOn = 0;
 int etatSon = 0;
 int etatBuzzer = 0;
+
 int us_periodSound = 0;
+int us_periodDoubleNote = 0;
 int us_noteDuration = 0;
+
 int microSeconds = 0;
 int microSeconds2 = 0;
+int microSeconds3 = 0;
+int microSecondsMusique = 0;
+
+int musique[NB_NOTES_MAX][2];
+int indiceCurrNote = 0;
 
 /* Frequence de la note associee a un bouton */
 int frequTouches[NB_TOUCHE] = {
@@ -33,23 +42,13 @@ int frequTouches[NB_TOUCHE] = {
 	SI, //Son touche BLEU
 };
 
-const int NB_NOTES = 8;
-int notes[8];
-int indiceCurrNote = 0;
-
 ////////// ===== JEU ===== //////////
-Touche jeu[256];
-Touche courant = NOTOUCH;
-int joueur1 = 0;
-int joueur2 = 0;
-int gagne = 0;
-int perdu = 0;
+Touche jeu[10];
 int posJeu = 0;
-int seqLength = 0;
+int flagchange = 0;
 int menu = 1;
 int unJoueur = 0;
 int deuxJoueurs = 0;
 int flag_jeu = 0;
 int no_touch = 0;
-int flagrepetitiontouche = 0;
 #endif

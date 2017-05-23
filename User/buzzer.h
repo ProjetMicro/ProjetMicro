@@ -14,6 +14,13 @@ void initNotes(void);
 
 // ===== Fonctions d'emmition du son ===== //
 void emettreREetFAD();
+void demoNotes();
+
+/* emettreMusique(notes) :
+ * notes[note][0] = frequ;
+ * notes[note][1] = dureeNote;
+ */
+void emettreMusique(int notes[NB_NOTES_MAX][2]);
 void emettreSonTouche(Touche touche);
 void demarerSon(void);
 void arreterSon(void);
