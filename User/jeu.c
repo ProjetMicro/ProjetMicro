@@ -2,15 +2,60 @@
 #include "jeu.h"
 
 
+//Timer interruption
+void TIMER2_IRQHandler(void)
+{
+		if (TIM_GetIntStatus(LPC_TIM2, TIM_MR0_INT))
+		{
+				TIM_ClearIntPending(LPC_TIM2, TIM_MR0_INT);
+				no_touch = 1;
+		}	
+}
+
+void init_timer_jeu(void)
+{
+	TIM_TIMERCFG_Type timerConf;
+	TIM_MATCHCFG_Type matchConf;
+	
+		//Set up timer for LCD
+		timerConf.PrescaleOption = TIM_PRESCALE_USVAL;
+		//Precision 20ms
+		timerConf.PrescaleValue = 20000;
+		
+		matchConf.MatchChannel = 0;
+		matchConf.IntOnMatch = ENABLE;
+		matchConf.ResetOnMatch = ENABLE;
+		matchConf.StopOnMatch = DISABLE;
+		matchConf.ExtMatchOutputType = TIM_EXTMATCH_NOTHING;
+		matchConf.MatchValue = 200;
+		
+		//Init timer
+		TIM_Init(LPC_TIM2, TIM_TIMER_MODE, &timerConf);
+		//Init match
+		TIM_ConfigMatch(LPC_TIM2, &matchConf);
+		
+		//Reset timer (in case of)
+		TIM_ResetCounter(LPC_TIM2);
+		
+		//Set-up interruptions
+		/* preemption = 1, sub-priority = 1 */
+		NVIC_SetPriority(TIMER1_IRQn, ((0x01<<3)|0x01));
+		/* Enable interrupt for timer 2 */
+		NVIC_EnableIRQ(TIMER2_IRQn);
+		
+		//Start timer
+		TIM_Cmd(LPC_TIM2, ENABLE);
+}
+
 void tache_clavier(void) {
-		//On déclare une Touche t pour stocker l'appui
+		//On dÃ©clare une Touche t pour stocker l'appui
 		Touche t;
 	
-		//Le flag appui clavier est à 1
+		//Le flag appui clavier est Ã  1
 		//On le reset
 		flagtacheclavier = 0;
 		
-		//On met à jour les coordonnées
+		//On met Ã  jour les coordonnÃ©es
 		touch_read();
 	
 		t = get_touche();
@@ -20,7 +65,7 @@ void tache_clavier(void) {
 			flagappuitactile = 0;
 		}
 	
-		//Mise à jour du tableau de jeu
+		//Mise Ã  jour du tableau de jeu
 		if (flag_jeu == 0)
 		{
 				flag_jeu = 1;
@@ -65,14 +110,14 @@ Touche get_touche(void)
 
 void tache_clavier_menu(void)
 {
-		//On déclare une Touche t pour stocker l'appui
+		//On dÃ©clare une Touche t pour stocker l'appui
 		int t;
 	
-		//Le flag appui clavier est à 1
+		//Le flag appui clavier est Ã  1
 		//On le reset
 		flagtacheclavier = 0;
 		
-		//On met à jour les coordonnées
+		//On met Ã  jour les coordonnÃ©es
 		touch_read();
 	
 		t = get_touche();
