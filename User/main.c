@@ -24,10 +24,7 @@ void pin_configuration(void);
 //===========================================================//
 int main(void)
 {
-	// Adresse de : la page | du mot
-	uint16_t addr = 0|(1<<8)|(1<<0);
 	pin_configuration();
-	
 	
 	while(1)
 	{
@@ -68,20 +65,20 @@ int main(void)
 			}
 			else if(gagne)
 			{
+				fin();
 				lcd_init_fin(1);
 			}
 			else if(perdu)
 			{
+				fin();
 				lcd_init_fin(0);
 			}
 			else if(no_touch)
 			{
 				no_touch = 0;
-				i2c_eeprom_write(addr, jeu, posJeu);
 				LCD_write_english_string(32, 15, "J2 : Repetez la sequence", Black, White);
 				joueur1 = 0;
 				joueur2 = 1;
-				//memset(jeu, 0, posJeu);
 				seqLength = posJeu;
 				posJeu = 0;
 			}
@@ -114,7 +111,6 @@ void pin_configuration()
 	buzzer_init();
 	//Launch timer
 	init_timer1();
-	init_i2c_eeprom();
 }
 
 //---------------------------------------------------------------------------------------------	

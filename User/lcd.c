@@ -26,7 +26,6 @@ void lcd_init_deuxJoueurs(void)
 		dessiner_rect_green(1);
 		dessiner_rect_red(1);
 		dessiner_rect_blue(1);
-		deuxJoueurs = 1;
 }
 
 //LCD Init
@@ -37,11 +36,6 @@ void lcd_init_fin(char res)
 	if(res) n = sprintf(chaine, "C'est gagne, rejouez !");
 	else n = sprintf(chaine, "C'est perdu, rejouez !");
 	LCD_write_english_string(32, 15, chaine, Black, White);
-	joueur2 = 0;
-	gagne = 0;
-	unJoueur = 0;
-	deuxJoueurs = 0;
-	//TODO bouton retour menu
 }
 
 void modifier_ecran(Touche t, char sombre) {

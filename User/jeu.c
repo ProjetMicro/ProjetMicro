@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "jeu.h"
 #include "memory.h"
 
@@ -9,6 +10,7 @@ void TIMER2_IRQHandler(void)
 		{
 				TIM_ClearIntPending(LPC_TIM2, TIM_MR0_INT);
 				no_touch = 1;
+				TIM_Cmd(LPC_TIM2, DISABLE);
 		}
 }
 
@@ -49,16 +51,19 @@ void init_timer_jeu(void)
 
 void joueurUn()
 {
+	uint16_t addr = 0|(1<<8);
+	uint8_t data[1];
 	if(flag_jeu == 0)
 	{
 		flag_jeu = 1;
 		//Set pos of tab to 0
 		posJeu = 0;
 	}
-	
+	addr |= posJeu;
+	data[0] = courant;
 	if(!flagrepetitiontouche)
 	{
-		jeu[posJeu] = courant;
+		i2c_eeprom_write(addr, data, 1);
 		posJeu++;
 		flagrepetitiontouche = 1;
 	}
@@ -66,11 +71,14 @@ void joueurUn()
 
 void joueurDeux()
 {
+	uint8_t t[1];
+	uint16_t addr = 0|(1<<8)|(posJeu);
 	if(!flagrepetitiontouche)
 	{
+		i2c_eeprom_read(addr, t, 1);
 		posJeu++;
 		flagrepetitiontouche = 1;
-		if(courant != jeu[posJeu-1])
+		if(courant != t[0])
 		{
 			perdu = 1;
 		}
@@ -79,6 +87,18 @@ void joueurDeux()
 			gagne = 1;
 		}
 	}
+}
+
+void fin()
+{
+	seqLength = 0;
+	posJeu = 0;
+	joueur1 = 1;
+	joueur2 = 0;
+	gagne = 0;
+	perdu = 0;
+	unJoueur = 0;
+	deuxJoueurs = 0;
 }
 
 void tache_clavier(void)
@@ -174,6 +194,7 @@ void tache_clavier_menu(void)
 			case 2:
 				menu = 0;
 				joueur1 = 1;
+				deuxJoueurs = 1;
 				lcd_init_deuxJoueurs();
 				init_timer_jeu();
 				break;

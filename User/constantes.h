@@ -1,3 +1,4 @@
+#include <stdint.h>
 #ifndef CONSTANTE_H
 #define CONSTANTE_H
 
@@ -13,10 +14,8 @@ typedef enum {
 } Touche;
 
 #define NB_TOUCHE 4
-#define NB_NOTES_MAX 50
 
 /* Les constantes des fréquences de base (en Hertz) */
-#define NOSOUND -1
 #define DO 262 // Do normal
 #define DOD 277 // Do diese
 #define RE 294  // Re normal

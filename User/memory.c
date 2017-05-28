@@ -23,6 +23,8 @@ void memory_init(void)
 	memory_SCL0_init_cfg.Pinnum = PINSEL_PIN_28;
 	memory_SCL0_init_cfg.Portnum = PINSEL_PORT_0; //P0.28 = memory
   PINSEL_ConfigPin(&memory_SCL0_init_cfg);
+	
+	init_i2c_eeprom();
 }
 
 
