@@ -28,16 +28,16 @@ int main(void)
 	
 	while(1)
 	{
-		if(menu == 1)
+		if(menu)
 		{
-			if(flagtacheclavier == 1)
+			if(flagtacheclavier)
 			{
 				tache_clavier_menu();
 			}
 		}
-		else if(unJoueur == 1)
+		else if(unJoueur)
 		{
-			if(flagtacheclavier == 1)
+			if(flagtacheclavier)
 			{
 				tache_clavier();
 				if(flagappuitactile && !flagchangecouleur)
@@ -46,15 +46,21 @@ int main(void)
 					flagchangecouleur = 1;
 				}
 			}
-			else if(no_touch)
+			else if(gagne)
 			{
-				no_touch = 0;
-				LCD_write_english_string(30, 110, "FIN", Black, White);
+				joueur2 = 0;
+				fin_seq_unJoueur();
+				gagne = 0;
+			}
+			else if(perdu)
+			{
+				lcd_init_fin(2);
+				fin();
 			}
 		}
-		else if(deuxJoueurs == 1)
+		else if(deuxJoueurs)
 		{
-			if(flagtacheclavier == 1)
+			if(flagtacheclavier)
 			{
 				tache_clavier();
 				if(flagappuitactile && !flagchangecouleur)

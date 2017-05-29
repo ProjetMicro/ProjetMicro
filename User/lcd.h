@@ -11,6 +11,7 @@
 #define LCD_H
 
 void lcd_init_menu(void);
+void lcd_init_unJoueur(void);
 void lcd_init_deuxJoueurs(void);
 void lcd_init_fin(char);
 void modifier_ecran(Touche, char);

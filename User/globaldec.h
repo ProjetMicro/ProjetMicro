@@ -49,6 +49,8 @@ int seqLength = 0;
 int menu = 1;
 int unJoueur = 0;
 int deuxJoueurs = 0;
+int flag_lecture_touche = 0;
+int flag_lecture_seq = 0;
 int flag_jeu = 0;
 int no_touch = 0;
 #endif

@@ -44,6 +44,8 @@ extern int seqLength;
 extern int menu;
 extern int unJoueur;
 extern int deuxJoueurs;
+extern int flag_lecture_touche;
+extern int flag_lecture_seq;
 extern int flag_jeu;
 extern int no_touch;
 #endif

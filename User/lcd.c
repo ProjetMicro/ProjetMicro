@@ -15,6 +15,18 @@ void lcd_init_menu(void)
 		LCD_write_english_string(140, 215, "2 joueurs", Black, Red);
 }
 
+void lcd_init_unJoueur(void)
+{
+	// affichage de l'écran de jeu
+		n = sprintf(chaine, "Memorisez la sequence");
+		lcd_clear(White);
+		LCD_write_english_string(32, 15, chaine, Black, White);
+		dessiner_rect_yellow(1);
+		dessiner_rect_green(1);
+		dessiner_rect_red(1);
+		dessiner_rect_blue(1);
+}
+
 //LCD Init
 void lcd_init_deuxJoueurs(void)
 {
@@ -33,7 +45,9 @@ void lcd_init_fin(char res)
 {
 	menu = 1;
 	lcd_init_menu();
-	if(res) n = sprintf(chaine, "C'est gagne, rejouez !");
+	if(res==3) n = sprintf(chaine, "Bravo, score max atteint");
+	else if(res==2) n = sprintf(chaine, "Score atteint : %d", seqLength-1);
+	else if(res==1) n = sprintf(chaine, "C'est gagne, rejouez !");
 	else n = sprintf(chaine, "C'est perdu, rejouez !");
 	LCD_write_english_string(32, 15, chaine, Black, White);
 }
